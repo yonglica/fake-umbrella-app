@@ -1,0 +1,22 @@
+<mat-toolbar color="primary">
+  <mat-toolbar-row>
+    <span>Customers</span>
+    <span class="toolbar-spacer"></span>
+    <button mat-icon-button (click)="addOrEditCustomer(false)">
+      <mat-icon>add</mat-icon>
+    </button>&nbsp;
+    <button mat-icon-button (click)="addOrEditCustomer(true)" [disabled]="disableEditButton()">
+      <mat-icon>edit</mat-icon>
+    </button>&nbsp;
+    <button mat-icon-button (click)="deleteCustomer()" [disabled]="disableDeleteButton()">
+      <mat-icon>delete</mat-icon>
+    </button>
+  </mat-toolbar-row>
+</mat-toolbar>
+
+<td-data-table selectable="true" sortable="false"
+               [data]="customersList"
+               [columns]="columns"
+               (rowSelect)="rowSelected($event)"
+               (selectAll)="selectAllEvent($event)">
+</td-data-table>

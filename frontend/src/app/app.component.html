@@ -1,0 +1,37 @@
+<td-layout>
+  <td-layout-nav logo="" toolbarTitle="Fake Umbrella">
+    <button mat-icon-button td-menu-button (click)="sidenav.toggle()">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <div td-toolbar-content layout="row" layout-align="start center" flex>
+
+    </div>
+    <mat-sidenav-container fullscreen>
+      <mat-sidenav #sidenav mode="side" opened="true" style="width:257px;border-right:1px solid #ccc">
+        <div flex class="mat-content bgc-grey-50">
+          <mat-nav-list>
+            <mat-divider></mat-divider>
+            <a routerLink="/customers" routerLinkActive="nav-router-link" mat-list-item>
+              <mat-icon matListIcon>account_box</mat-icon>
+              Customers
+            </a>
+            <mat-divider></mat-divider>
+            <a routerLink="/forecast" routerLinkActive="nav-router-link" mat-list-item>
+              <mat-icon matListIcon>umbrella</mat-icon>
+              Forecast
+            </a>
+            <mat-divider></mat-divider>
+            <a routerLink="/chart" routerLinkActive="nav-router-link" mat-list-item>
+              <mat-icon matListIcon>bar_chart</mat-icon>
+              Top 4 customers
+            </a>
+            <mat-divider></mat-divider>
+          </mat-nav-list>
+        </div>
+      </mat-sidenav>
+      <mat-sidenav-content>
+        <router-outlet></router-outlet>
+      </mat-sidenav-content>
+    </mat-sidenav-container>
+  </td-layout-nav>
+</td-layout>

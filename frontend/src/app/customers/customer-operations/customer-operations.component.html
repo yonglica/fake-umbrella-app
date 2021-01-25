@@ -1,0 +1,31 @@
+<h1 mat-dialog-title>
+  {{getTitle()}}
+</h1>
+<div fxLayout="column" class="dialog-content">
+  <form fxLayout="column" fxLayoutGap="10px" [formGroup]="customerForm">
+    <mat-form-field color="accent" fxFlex>
+      <input matInput placeholder="Name" formControlName="name">
+    </mat-form-field>
+    <mat-form-field color="accent" fxFlex>
+      <input matInput placeholder="Person Of Contact" formControlName="personOfContact">
+    </mat-form-field>
+    <mat-form-field color="accent" fxFlex>
+      <input matInput placeholder="Telephone Number" formControlName="telephoneNumber">
+    </mat-form-field>
+    <mat-form-field color="accent" fxFlex>
+      <input matInput placeholder="Location" formControlName="location">
+      <mat-error *ngIf="customerForm.get('location').invalid">{{getLocationErrorMsg()}}</mat-error>
+    </mat-form-field>
+    <mat-form-field color="accent" fxFlex>
+      <input matInput placeholder="Number Of Employees" formControlName="numberOfEmployees">
+    </mat-form-field>
+  </form>
+  <div fxFlex fxLayoutGap="20px" fxLayoutAlign="center center">
+    <button mat-button (click)="save()" [disabled]="customerForm.invalid">
+      Save
+    </button>
+    <button mat-button (click)="cancel()">
+      Cancel
+    </button>
+  </div>
+</div>
