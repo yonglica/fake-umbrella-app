@@ -6,7 +6,6 @@ import { CustomerService } from '../../services/customer.service';
 import { telephoneNumberValidator } from '../../shared/validators/telephone-number';
 import { locationValidator } from '../../shared/validators/location';
 import { numberValidator } from '../../shared/validators/number';
-import {Subscription} from 'rxjs';
 
 @Component({
   selector: 'app-customer-operations',
@@ -24,7 +23,11 @@ export class CustomerOperationsComponent implements OnInit {
     private dialogRef: MatDialogRef<CustomerOperationsComponent>,
     private customerService: CustomerService,
     @Optional() @Inject(MAT_DIALOG_DATA) public data: any
-  ) { }
+  ) {
+    if (data) {
+      this.customerData = data.customer;
+    }
+  }
 
   ngOnInit() {
     this.customerForm = this.formBuilder.group({

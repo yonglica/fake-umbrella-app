@@ -7,7 +7,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { TdDialogService } from '@covalent/core/dialogs';
 import { CustomerOperationsComponent } from '../customer-operations/customer-operations.component';
 import { catchError, flatMap, toArray } from 'rxjs/operators';
-import { from, of, onErrorResumeNext } from 'rxjs';
+import { from, of } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 import * as _ from 'lodash';
 
@@ -123,7 +123,6 @@ export class CustomerTableComponent implements OnInit {
             catchError(err => {
               return of(err);
             }),
-            // onErrorResumeNext()
           );
         }
       }),

@@ -1,5 +1,5 @@
 FROM node
-WORKDIR /fake-umbrella/backend
+WORKDIR /fake-umbrella-app/backend
 COPY package*.json ./
 RUN npm install
 COPY . .
