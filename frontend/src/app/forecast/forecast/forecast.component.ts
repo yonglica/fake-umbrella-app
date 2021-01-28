@@ -67,15 +67,15 @@ export class ForecastComponent implements OnInit {
   }
 
   generateRainTime(weatherForecast: WeatherForecast) {
-    let rainTime = '';
+    const rainyDaySet = new Set();
     for (const list of weatherForecast.list) {
       for (const weather of list.weather) {
         if (weather.main === 'Rain') {
-          rainTime += list.dt_txt + '; ';
+          rainyDaySet.add(list.dt_txt.split(' ', 1)[0])
         }
       }
     }
-    return rainTime;
+    return Array.from(rainyDaySet.values()).join(';');
   }
 
   generateForecastData(customers: Customer[]) {
