@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import {Customer} from '../models/customer.interface';
+import { Customer } from '../models/customer.interface';
 
-const BACKEND_URL = 'http://localhost:3000';
+export const BACKEND_URL = 'http://localhost:3000';
 
 @Injectable({
   providedIn: 'root'
@@ -28,6 +28,6 @@ export class CustomerService {
   }
 
   updateCustomer(input: Customer) {
-    return this.http.put<Customer>(`${BACKEND_URL}/customer/?customerID=${input.customerId}`, input);
+    return this.http.put<Customer>(`${BACKEND_URL}/customer?customerID=${input.customerId}`, input);
   }
 }

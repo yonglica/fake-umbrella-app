@@ -56,7 +56,7 @@ export class CustomerOperationsComponent implements OnInit {
 
   getLocationErrorMsg() {
     const location = this.customerForm.get('location');
-    return location.hasError('invalidLocation') ? 'Please input a valid location.' : '';
+    return location.hasError('invalidLocation') ? 'Please input location in city, country format.' : '';
   }
 
   cancel() {

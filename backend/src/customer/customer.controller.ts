@@ -4,6 +4,7 @@ import { CreateCustomerDTO } from './dto/create-customer.dto';
 
 @Controller()
 export class CustomerController {
+
   constructor(private customerService: CustomerService) {}
 
   @Get('customers')
@@ -54,4 +55,5 @@ export class CustomerController {
       customer: modifiedCustomer,
     });
   }
+
 }

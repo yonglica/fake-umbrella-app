@@ -1,6 +1,6 @@
 import { ValidatorFn, AbstractControl } from '@angular/forms';
 
-export const locationRegex = /^([a-zA-Z\u0080-\u024F]+(?:. |-| |'))*[a-zA-Z\u0080-\u024F]*$/;
+const locationRegex = /^[a-zA-Z\u0080-\u024F]*,[ ]*[a-zA-Z\u0080-\u024F]*$/;
 
 export function locationValidator(): ValidatorFn {
   return (control: AbstractControl) => {

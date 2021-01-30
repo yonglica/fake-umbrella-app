@@ -6,6 +6,7 @@ import { CreateCustomerDTO } from './dto/create-customer.dto';
 
 @Injectable()
 export class CustomerService {
+
   constructor(@InjectModel('Customer') private readonly customerModel: Model<Customer>) {}
 
   async getAllCustomer(): Promise<Customer[]> {
@@ -34,10 +35,20 @@ export class CustomerService {
     );
     return updatedCustomer;
   }
+
   async deleteCustomer(customerID): Promise<any> {
     const deletedCustomer = await this.customerModel.findByIdAndRemove(
       customerID,
     );
     return deletedCustomer;
   }
+
+  async getCustomersSortByEmployeesNumber(): Promise<Customer[]> {
+//     const customers = await this.customerModel.find().sort({numberOfEmployees: 'desc'}).exec();
+
+    const customers = await this.customerModel.find().sort({'numberOfEmployees': 'desc'}).limit(4).exec();
+//     const customers = await this.customerModel.find().sort({fieldName: 'desc'}).limit(top).exec();
+    return customers;
+  }
+
 }

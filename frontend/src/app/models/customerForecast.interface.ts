@@ -4,5 +4,7 @@ export interface CustomerForecast {
   telephoneNumber: string;
   location: string;
   numberOfEmployees: number;
-  rainTime: string;
+  rainInFiveDays?: boolean;
+  rainDates?: string[];
+  rainTime?: string;
 }

@@ -72,5 +72,3 @@ export interface City {
   sunrise: number;
   sunset: number;
 }
-
-

@@ -20,4 +20,8 @@ export class WeatherService {
     return this.http.get(`${WEATHER_API_URL}/forecast?q=${cityName}&appid=${WEATHER_API_KEY}`);
   }
 
+  getWeatherForecastByCityNameAndCountryCode(cityName: string, countryCode: string) {
+    return this.http.get(`${WEATHER_API_URL}/forecast?q=${cityName},${countryCode}&appid=${WEATHER_API_KEY}`);
+  }
+
 }

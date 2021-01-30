@@ -1,13 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ITdDataTableColumn, TdDataTableService } from '@covalent/core/data-table';
-import {from, of, Subscription} from 'rxjs';
-import { catchError, flatMap, map, toArray} from 'rxjs/operators';
-import * as _ from 'lodash';
-import { CustomerService } from '../../services/customer.service';
-import { WeatherService } from '../../services/weather.service';
-import { WeatherForecast } from '../../models/weatherForecast.interface';
+import { ForecastService } from '../../services/forecast.service';
 import { CustomerForecast } from '../../models/customerForecast.interface';
-import { Customer} from '../../models/customer.interface';
 
 @Component({
   selector: 'app-forecast',
@@ -26,76 +20,31 @@ export class ForecastComponent implements OnInit {
   ];
 
   customerForecastList: CustomerForecast[] = [];
-  subscriptions$: Subscription = new Subscription();
 
   constructor(
     private dataTableService: TdDataTableService,
-    private customerService: CustomerService,
-    private weatherService: WeatherService,
+    private forecastService: ForecastService,
   ) { }
 
   ngOnInit() {
-    this.subscriptions$.add(this.customerService.getAllCustomers().pipe(
-      map(customerList => {
-        const result = _.chain(customerList)
-          .orderBy(['numberOfEmployees'], ['desc'])
-          .value();
-        return result;
-      }),
-      flatMap((customers: Customer[]) => {
-        return from(customers);
-      }),
-      flatMap((customer: Customer) => {
-        const cityName = customer.location;
-        return this.weatherService.getWeatherForecastByCityName(cityName).pipe(
-          catchError(err => of(err)),
-          map(res => {
-            customer.weatherForecast = JSON.parse(JSON.stringify(res));
-            return customer;
-          })
-        );
-      }),
-      toArray(),
-    ).subscribe(
-      res => {
-        this.generateForecastData(res);
-      },
-      err => {
-        console.log(err);
-      }
-    ));
+    this.forecastService.getForecast().subscribe(res => {
+      this.generateForecastData(res);
+    });
   }
 
-  generateRainTime(weatherForecast: WeatherForecast) {
-    const rainyDaySet = new Set();
-    for (const list of weatherForecast.list) {
-      for (const weather of list.weather) {
-        if (weather.main === 'Rain') {
-          rainyDaySet.add(list.dt_txt.split(' ', 1)[0])
+  generateForecastData(customerForecasts: CustomerForecast[]) {
+    const rainyDayForecasts = [];
+    for (const customerForecast of customerForecasts) {
+      if (customerForecast.rainInFiveDays) {
+        const rainyDaySet = new Set();
+        for (const rainDate of customerForecast.rainDates) {
+          rainyDaySet.add(rainDate.split(' ')[0]);
         }
+        customerForecast.rainTime = Array.from(rainyDaySet.values()).join(';');
+        rainyDayForecasts.push(customerForecast);
       }
     }
-    return Array.from(rainyDaySet.values()).join(';');
-  }
-
-  generateForecastData(customers: Customer[]) {
-    const customerForecastList = [];
-    for (const customer of customers) {
-      const foreCastRainTime = this.generateRainTime(customer.weatherForecast);
-      if (foreCastRainTime !== '') {
-        customer.rainTime = foreCastRainTime;
-        const customerForecast = {
-          name: customer.name,
-          personOfContact: customer.personOfContact,
-          telephoneNumber: customer.telephoneNumber,
-          location: customer.location,
-          numberOfEmployees: customer.numberOfEmployees,
-          rainTime: foreCastRainTime,
-        };
-        customerForecastList.push(customerForecast);
-      }
-    }
-    this.customerForecastList = customerForecastList;
+    this.customerForecastList = rainyDayForecasts;
   }
 
 }
