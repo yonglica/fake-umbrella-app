@@ -51,3 +51,7 @@ lerna-debug.log*
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
+.gitsecret/keys/random_seed
+!*.secret
+backend/.env
+backend/.dev.env
