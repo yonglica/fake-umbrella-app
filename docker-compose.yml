@@ -1,20 +1,34 @@
 version: '3'
 
 services:
- database:
-  container_name: mongo
-  image: mongo
-  ports:
-   - "27017:27017"
- frontend:
-  container_name: angular
-  build: frontend
-  ports:
-   - "4200:4200"
-  command: >
-        bash -c "ng serve --host 0.0.0.0 --port 4200"
- backend:
-  container_name: nest
-  build: backend
-  ports:
-   - "3000:3000"
+  database:
+    container_name: mongo
+    image: mongo:4.4.3
+    ports:
+      - "27017:27017"
+
+  cache:
+    container_name: redis
+    image: redis:6.0.10
+    ports:
+      - "6379:6379"
+
+  frontend:
+    container_name: fake-umbrella-frontend
+    build: frontend
+    ports:
+      - "4200:4200"
+    command: >
+          bash -c "ng serve --host 0.0.0.0 --port 4200"
+
+  backend:
+    container_name: fake-umbrella-backend
+    build: backend
+    ports:
+      - "3000:3000"
+    env_file:
+      - backend/.dev.env
+    depends_on:
+      - database
+      - cache
+
