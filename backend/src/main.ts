@@ -1,9 +1,11 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
+import * as swStats from 'swagger-stats';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  app.use(swStats.getMiddleware());
 
   const APP_NAME = process.env.npm_package_name;
   const APP_VERSION = process.env.npm_package_version;

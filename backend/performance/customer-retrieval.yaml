@@ -1,0 +1,22 @@
+config:
+  environments:
+    dev:
+      target: 'http://localhost:3000'
+      phases:
+        - duration: 5
+          arrivalRate: 1
+          maxVusers: 5
+          name: Warm up
+
+scenarios:
+  - name: "customer management"
+    flow:
+      - get:
+          url: "/customers"
+          capture:
+            json: "$[0].customerId"
+            as: "customerId"
+      - log: "customerId is {{ customerId }}"
+
+      - get:
+          url: "/customer/{{ customerId }}"

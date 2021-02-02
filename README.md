@@ -15,6 +15,14 @@ After cloning code to local, run `docker compose up` under local application fol
 ## Fake Umbrella api
 While the application is running, open a browser and navigate to `http://localhost:3000/api`. You should see the Swagger UI. A Json format api document can be access at `http://localhost:3000/api-json`.
 
+## Performace Test
+[Artillery](https://artillery.io/) is used as a load testing tool for Fake umbrella api. To execute a load test in local environment, 
+- Installation `npm install -g artillery`
+- Start Fake umbrella api `npm run start`
+- Execute test configurations in backend/performance folder
+  `artillery run -e dev forecast-retrieval.yml`
+  `artillery run -e dev customer-operations.yml`
+  `artillery run -e dev customer-retrieval.yml`
 
 ## prerequisites
 

@@ -1,0 +1,47 @@
+config:
+  environments:
+    dev:
+      target: 'http://localhost:3000'
+      phases:
+        - duration: 1
+          arrivalRate: 1
+          maxVusers: 5
+          name: Warm up
+
+      defaults:
+        headers:
+          x-api-key: "{{ $processEnvironment.SERVICE_API_KEY }}"
+        # - duration: 120
+        #   arrivalRate: 5
+        #   rampTo: 50
+        #   name: Ramp up load
+        # - duration: 300
+        #   arrivalRate: 50
+        #   name: Sustained load
+
+scenarios:
+  - name: "customer management"
+    flow:
+      - get:
+          url: "/customers"
+          capture:
+            json: "$.results[0].customerId"
+            as: "customerId"
+      # - get:
+      #     url: "/customer/{{ customerId }}"
+      #     capture:
+      #       json: "$.results[0].customerId"
+      #       as: "customerId"
+  
+  - name: "retrieve weather forecast"
+    flow:
+      - get:
+          url: "/forecast"
+          capture:
+            json: "$.results[0].name"
+            as: "name"
+      - get:
+          url: "/report"
+          capture:
+            json: "$.results[0].name"
+            as: "name"
