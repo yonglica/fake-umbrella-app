@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { Customer } from '../../customer/interfaces/customer.interface';
 import { CustomerService } from '../../customer/customer.service';
 import { WeatherForecast } from '../interfaces/weatherForecast.interface';
@@ -16,13 +16,15 @@ export class ForecastService {
   ) {}
 
   async getForecast(): Promise<Forecast[]> {
+    Logger.log(`retrieve weather forecast`);
     const customers = await this.customerService.getAllCustomer();
     return this.getForecastList(customers);
   }
 
   async getTopReport(top: number): Promise<Forecast[]> {
+    Logger.log(`retrieve Top ${top} customers weather report`);
     const customers = await this.customerService.getCustomersSortByEmployeesNumber();
-    return this.getForecastList(customers);;
+    return this.getForecastList(customers);
   }
 
   async getForecastList(customers: Customer[]): Promise<Forecast[]> {
@@ -32,12 +34,15 @@ export class ForecastService {
       const cityName = locationArray[0];
       const countryCode = locationArray[1];
 
+      Logger.log(`try to retrieve weather cache for ${cityName}:${countryCode}`);
       let weatherForecast = await this.weatherCacheService.get<WeatherForecast>(`${cityName}:${countryCode}`);
       if (!weatherForecast) {
-        console.log('weather cache not found, retrieve from api');
+        Logger.log('weather cache not found, retrieve from external api');
         weatherForecast = await this.openweatherService.getWeatherForecastByCityNameAndCountryCode(cityName, countryCode);
-        console.log('weather retrieved, saving to cache');
+        Logger.log('weather retrieved from external api, saving to cache');
         this.weatherCacheService.set(`${cityName}:${countryCode}`, weatherForecast);
+      } else {
+        Logger.log(`weather cache found ${cityName}:${countryCode}`);
       }
 
       const rainyDays = this.getRainyDays(weatherForecast);

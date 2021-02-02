@@ -19,6 +19,7 @@ import { ForecastModule } from './forecast/forecast.module';
         uri: configService.get('DB_URL'),
         useNewUrlParser: true,
         useUnifiedTopology: true,
+        useFindAndModify: false,
       }),
      }),
     HttpModule,

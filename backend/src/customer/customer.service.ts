@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { Customer } from './interfaces/customer.interface';
@@ -11,16 +11,19 @@ export class CustomerService {
 
   async getAllCustomer(): Promise<Customer[]> {
     const customers = await this.customerModel.find().exec();
+    Logger.log('retrieved all customers: ' + customers.length);
     return customers;
   }
 
   async getCustomer(customerID): Promise<Customer> {
     const customer = await this.customerModel.findById(customerID).exec();
+    Logger.log('retrieved customer: ' + customerID);
     return customer;
   }
 
   async addCustomer(createCustomerDTO: CreateCustomerDTO): Promise<Customer> {
     const newCustomer = new this.customerModel(createCustomerDTO);
+    Logger.log('added customer: ' + newCustomer.name);
     return newCustomer.save();
   }
 
@@ -33,6 +36,7 @@ export class CustomerService {
       createCustomerDTO,
       { new: true },
     );
+    Logger.log('updated customer: ' + updatedCustomer.name);
     return updatedCustomer;
   }
 
@@ -40,12 +44,13 @@ export class CustomerService {
     const deletedCustomer = await this.customerModel.findByIdAndRemove(
       customerID,
     );
+    Logger.log('deleted customer: ' + deletedCustomer.name);
     return deletedCustomer;
   }
 
+  // TODO: refactor later, should be generic
   async getCustomersSortByEmployeesNumber(): Promise<Customer[]> {
 //     const customers = await this.customerModel.find().sort({numberOfEmployees: 'desc'}).exec();
-
     const customers = await this.customerModel.find().sort({'numberOfEmployees': 'desc'}).limit(4).exec();
 //     const customers = await this.customerModel.find().sort({fieldName: 'desc'}).limit(top).exec();
     return customers;

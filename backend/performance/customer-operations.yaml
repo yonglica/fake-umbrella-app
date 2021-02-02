@@ -1,0 +1,36 @@
+config:
+  environments:
+    dev:
+      target: 'http://localhost:3000'
+      phases:
+        - duration: 5
+          arrivalRate: 1
+          maxVusers: 5
+          name: Warm up
+  payload:
+    path: "customers.csv"
+    fields:
+      - "name"
+      - "personOfContact"
+      - "telephoneNumber"
+      - "location"
+      - "numberOfEmployees"
+
+scenarios:
+  - name: "customer management"
+    flow:
+      - post:
+          url: "/customer/"
+          json:
+            name: "{{ name }}"
+            personOfContact: "{{ personOfContact }}"
+            telephoneNumber: "{{ telephoneNumber }}"
+            location: "{{ location }}"
+            numberOfEmployees: "{{ numberOfEmployees }}"
+          capture:
+            json: "$.customer.customerId"
+            as: "customerId"
+      - log: "customerId is {{ customerId }}"
+
+      - delete:
+          url: "/customer/{{ customerId }}"
