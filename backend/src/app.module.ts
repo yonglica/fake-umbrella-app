@@ -3,9 +3,9 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { RedisCacheModule } from './redis-cache/redis-cache.module';
 import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { CustomerModule } from './customer/customer.module';
 import { ForecastModule } from './forecast/forecast.module';
+import { AppService } from './app.service';
 
 @Module({
   imports: [

@@ -1,5 +1,4 @@
 import { Injectable, HttpService } from '@nestjs/common';
-import { from, of, Subscription } from 'rxjs';
 import { WeatherForecast } from '../interfaces/weatherForecast.interface';
 import axios from 'axios';
 import { ConfigService } from '@nestjs/config';
@@ -8,7 +7,6 @@ import { ConfigService } from '@nestjs/config';
 export class OpenweatherService {
 
   constructor(
-    private http: HttpService,
     private configService: ConfigService,
   ) {}
 
