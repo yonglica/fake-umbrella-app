@@ -1,8 +1,8 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { Customer } from '../../customer/interfaces/customer.interface';
-import { CustomerService } from '../../customer/customer.service';
 import { WeatherForecast } from '../interfaces/weatherForecast.interface';
 import { Forecast } from '../interfaces/forecast.interface';
+import { CustomerService } from '../../customer/customer.service';
 import { OpenweatherService } from './openweather.service';
 import { RedisCacheService } from '../../redis-cache/redis-cache.service'
 
