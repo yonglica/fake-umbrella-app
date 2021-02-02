@@ -20,9 +20,9 @@ While the application is running, open a browser and navigate to `http://localho
 - Installation `npm install -g artillery`
 - Start Fake umbrella api `npm run start`
 - Execute test configurations in backend/performance folder
-  `artillery run -e dev forecast-retrieval.yml`
-  `artillery run -e dev customer-operations.yml`
-  `artillery run -e dev customer-retrieval.yml`
+  <br/>`artillery run -e dev forecast-retrieval.yml`
+  <br/>`artillery run -e dev customer-operations.yml`
+  <br/>`artillery run -e dev customer-retrieval.yml`
 
 ## prerequisites
 
