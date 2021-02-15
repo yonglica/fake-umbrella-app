@@ -8,12 +8,12 @@ export const CustomerSchema = new mongoose.Schema({
   numberOfEmployees: Number,
 });
 
-CustomerSchema.virtual('customerId').get(function () {
+CustomerSchema.virtual('id').get(function () {
   return this._id;
 });
 
 CustomerSchema.set('toJSON', {
   virtuals: true,
   versionKey: false,
-  transform: function (doc, ret) { delete ret._id; delete ret.id; }
+  transform: function (doc, ret) { delete ret._id; }
 });

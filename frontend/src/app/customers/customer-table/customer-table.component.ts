@@ -43,6 +43,7 @@ export class CustomerTableComponent implements OnInit {
   getCustomerList() {
     this.customerService.getAllCustomers().subscribe(res => {
       this.customersList = res;
+      console.log('customersList.length' + this.customersList.length);
       this.selectedCustomers = [];
     });
   }
@@ -74,14 +75,14 @@ export class CustomerTableComponent implements OnInit {
   }
 
   addRowToSelection(row: any) {
-    const elem = _.find(this.selectedCustomers, e => e.customerId === row.customerId);
+    const elem = _.find(this.selectedCustomers, e => e.id === row.id);
     if (!elem) {
       this.selectedCustomers.push(_.clone(row));
     }
   }
 
   removeRowFromSelection(row: any) {
-    const elem = _.find(this.selectedCustomers, e => e.customerId === row.customerId);
+    const elem = _.find(this.selectedCustomers, e => e.id === row.id);
     if (elem) {
       _.pull(this.selectedCustomers, elem);
     }
@@ -117,7 +118,7 @@ export class CustomerTableComponent implements OnInit {
         }
       }),
       flatMap(customer => {
-        const id = (customer as Customer).customerId;
+        const id = (customer as Customer).id;
         if (id) {
           return this.customerService.deleteCustomer(id).pipe(
             catchError(err => {

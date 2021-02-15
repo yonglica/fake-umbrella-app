@@ -3,16 +3,15 @@ import { ApiBadRequestResponse, ApiCreatedResponse, ApiInternalServerErrorRespon
 import { CustomerService } from './customer.service';
 import { CreateCustomerDTO } from './dto/create-customer.dto';
 
-@ApiTags('customer')
-@Controller('')
+@ApiTags('customers')
+@Controller('fake-umbrella-api/customers')
 export class CustomerController {
-
   constructor(private customerService: CustomerService) {}
 
-  @ApiOperation({summary: 'Retrieve all customers'})
-  @ApiOkResponse({description: 'Retrieved all customers successfully'})
-  @ApiInternalServerErrorResponse({description: 'Internal server error'})
-  @Get('customers')
+  @ApiOperation({ summary: 'Retrieve all customers' })
+  @ApiOkResponse({ description: 'Retrieved all customers successfully' })
+  @ApiInternalServerErrorResponse({ description: 'Internal server error' })
+  @Get()
   async getAllCustomer(@Res() res) {
     try {
       const customers = await this.customerService.getAllCustomer();
@@ -22,15 +21,19 @@ export class CustomerController {
     }
   }
 
-  @ApiOperation({summary: 'Retrieve a customer by ID'})
-  @ApiParam({name: 'customerID', required: true, description: 'Unique identifier of customer'})
-  @ApiOkResponse({description: 'Retrieved customer successfully'})
+  @ApiOperation({ summary: 'Retrieve a customer by ID' })
+  @ApiParam({
+    name: 'id',
+    required: true,
+    description: 'Unique identifier of customer',
+  })
+  @ApiOkResponse({ description: 'Retrieved customer successfully' })
   @ApiNotFoundResponse({ description: 'No customer found' })
-  @ApiInternalServerErrorResponse({description: 'Internal server error'})
-  @Get('customer/:customerID')
-  async getCustomer(@Res() res, @Param('customerID') customerID) {
+  @ApiInternalServerErrorResponse({ description: 'Internal server error' })
+  @Get(':id')
+  async getCustomer(@Res() res, @Param('id') id) {
     try {
-      const customer = await this.customerService.getCustomer(customerID);
+      const customer = await this.customerService.getCustomer(id);
       if (!customer) {
         return res.status(HttpStatus.NOT_FOUND).json('No customer found');
       }
@@ -40,14 +43,16 @@ export class CustomerController {
     }
   }
 
-  @ApiOperation({summary: 'Create a new customer'})
-  @ApiCreatedResponse({description: 'Created customer successfully'})
-  @ApiBadRequestResponse({ description: 'Bad request'})
-  @ApiInternalServerErrorResponse({description: 'Internal server error'})
-  @Post('customer')
+  @ApiOperation({ summary: 'Create a new customer' })
+  @ApiCreatedResponse({ description: 'Created customer successfully' })
+  @ApiBadRequestResponse({ description: 'Bad request' })
+  @ApiInternalServerErrorResponse({ description: 'Internal server error' })
+  @Post()
   async addCustomer(@Res() res, @Body() createCustomerDTO: CreateCustomerDTO) {
     try {
-      const customer = await this.customerService.addCustomer(createCustomerDTO);
+      const customer = await this.customerService.addCustomer(
+        createCustomerDTO,
+      );
       if (!customer) {
         return res.status(HttpStatus.BAD_REQUEST).json('Bad request');
       }
@@ -60,15 +65,19 @@ export class CustomerController {
     }
   }
 
-  @ApiOperation({summary: 'Delete a customer by ID'})
-  @ApiParam({name: 'customerID', required: true, description: 'Unique identifier of customer'})
-  @ApiOkResponse({description: 'Customer has been deleted'})
+  @ApiOperation({ summary: 'Delete a customer by ID' })
+  @ApiParam({
+    name: 'id',
+    required: true,
+    description: 'Unique identifier of customer',
+  })
+  @ApiOkResponse({ description: 'Customer has been deleted' })
   @ApiNotFoundResponse({ description: 'No customer found' })
-  @ApiInternalServerErrorResponse({description: 'Internal server error'})
-  @Delete('customer/:customerID')
-  async deleteCustomer(@Res() res, @Param('customerID') customerID) {
+  @ApiInternalServerErrorResponse({ description: 'Internal server error' })
+  @Delete(':id')
+  async deleteCustomer(@Res() res, @Param('id') id) {
     try {
-      const customer = await this.customerService.deleteCustomer(customerID);
+      const customer = await this.customerService.deleteCustomer(id);
       if (!customer) {
         return res.status(HttpStatus.NOT_FOUND).json('No customer found');
       }
@@ -81,19 +90,26 @@ export class CustomerController {
     }
   }
 
-  @ApiOperation({summary: 'Update a customer'})
-  @ApiParam({name: 'customerID', required: true, description: 'Unique identifier of customer'})
-  @ApiOkResponse({description: 'Customer has been successfully updated'})
+  @ApiOperation({ summary: 'Update a customer' })
+  @ApiParam({
+    name: 'id',
+    required: true,
+    description: 'Unique identifier of customer',
+  })
+  @ApiOkResponse({ description: 'Customer has been successfully updated' })
   @ApiNotFoundResponse({ description: 'No customer found' })
-  @ApiInternalServerErrorResponse({description: 'Internal server error'})
-  @Put('customer')
+  @ApiInternalServerErrorResponse({ description: 'Internal server error' })
+  @Put()
   async updateCustomer(
     @Res() res,
-    @Query('customerID') customerID,
+    @Query('id') id,
     @Body() createCustomerDTO: CreateCustomerDTO,
   ) {
     try {
-      const modifiedCustomer = await this.customerService.updateCustomer(customerID,createCustomerDTO,);
+      const modifiedCustomer = await this.customerService.updateCustomer(
+        id,
+        createCustomerDTO,
+      );
       if (!modifiedCustomer) {
         return res.status(HttpStatus.NOT_FOUND).json('No customer found');
       }
@@ -104,6 +120,5 @@ export class CustomerController {
     } catch (error) {
       return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json(error.message);
     }
-  } 
-
+  }
 }

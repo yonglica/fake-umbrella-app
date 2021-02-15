@@ -47,7 +47,7 @@ export class CustomerOperationsComponent implements OnInit {
     const input = this.customerForm.value;
     // @ts-ignore
     const Observable: Observable<Customer> =
-      this.isUpdate ? this.customerService.updateCustomer({ customerId: this.customerData.customerId, ...input })
+      this.isUpdate ? this.customerService.updateCustomer({ id: this.customerData.id, ...input })
         : this.customerService.createCustomer(input);
     Observable.subscribe(res => {
       this.dialogRef.close(res);

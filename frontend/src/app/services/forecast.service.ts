@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Customer } from '../models/customer.interface';
 
-export const BACKEND_URL = 'http://localhost:3000';
+const BACKEND_URL = 'http://localhost:3000/fake-umbrella-api';
 
 @Injectable({
   providedIn: 'root'

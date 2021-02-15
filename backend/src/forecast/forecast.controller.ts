@@ -3,14 +3,17 @@ import { ApiInternalServerErrorResponse, ApiOkResponse, ApiOperation, ApiParam, 
 import { ForecastService } from './services/forecast.service';
 
 @ApiTags('forecast')
-@Controller()
+@Controller('fake-umbrella-api')
 export class ForecastController {
 
   constructor(private forecastService: ForecastService) {}
 
-  @ApiOperation({summary: 'Retrieve a list of customers that will have rain for the next 5 days with the name, contact and phone number and for when the rain is expected.'})
-  @ApiOkResponse({description: 'Retrieved forecast data successfully'})
-  @ApiInternalServerErrorResponse({description: 'Internal server error'})
+  @ApiOperation({
+    summary:
+      'Retrieve a list of customers that will have rain for the next 5 days with the name, contact and phone number and for when the rain is expected.',
+  })
+  @ApiOkResponse({ description: 'Retrieved forecast data successfully'})
+  @ApiInternalServerErrorResponse({ description: 'Internal server error'})
   @Get('forecast')
   async getForecast(@Res() res) {
     try {
@@ -21,10 +24,14 @@ export class ForecastController {
     }
   }
 
-  @ApiOperation({summary: 'Retrieve rain forecast report for the next 5 days for given top customers.'})
-  @ApiParam({name: 'topCustomerNumber', required: true, description: 'The top number of companies with most employees'})
-  @ApiOkResponse({description: 'Retrieved forecast data successfully'})
-  @ApiInternalServerErrorResponse({description: 'Internal server error'})
+  @ApiOperation({ summary: 'Retrieve rain forecast report for the next 5 days for given top customers.'})
+  @ApiParam({
+    name: 'topCustomerNumber',
+    required: true,
+    description: 'The top number of companies with most employees',
+  })
+  @ApiOkResponse({ description: 'Retrieved forecast data successfully'})
+  @ApiInternalServerErrorResponse({ description: 'Internal server error'})
   @Get('report')
   async getTopReport(@Res() res, @Query('top') topCustomerNumber) {
     try {
